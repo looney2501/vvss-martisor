@@ -16,7 +16,7 @@ class TaskTest {
     @BeforeEach
     void setUp() {
         try {
-            task=new Task("new task",Task.getDateFormat().parse("2023-02-12 10:10"));
+            task=new Task("new task", Task.getDateFormat().parse("2023-02-12 10:10"), Task.getDateFormat().parse("2023-02-10:10"), 0);
         } catch (ParseException e) {
             e.printStackTrace();
         }

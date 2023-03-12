@@ -25,17 +25,11 @@ public class TaskIO {
         try {
             dataOutputStream.writeInt(tasks.size());
             for (Task t : tasks){
-                dataOutputStream.writeInt(t.getTitle().length());
                 dataOutputStream.writeUTF(t.getTitle());
                 dataOutputStream.writeBoolean(t.isActive());
                 dataOutputStream.writeInt(t.getRepeatInterval());
-                if (t.isRepeated()){
-                    dataOutputStream.writeLong(t.getStartTime().getTime());
-                    dataOutputStream.writeLong(t.getEndTime().getTime());
-                }
-                else {
-                    dataOutputStream.writeLong(t.getTime().getTime());
-                }
+                dataOutputStream.writeLong(t.getStartTime().getTime());
+                dataOutputStream.writeLong(t.getEndTime().getTime());
             }
         }
         finally {
@@ -47,19 +41,12 @@ public class TaskIO {
         try {
             int listLength = dataInputStream.readInt();
             for (int i = 0; i < listLength; i++){
-                int titleLength = dataInputStream.readInt();
                 String title = dataInputStream.readUTF();
                 boolean isActive = dataInputStream.readBoolean();
                 int interval = dataInputStream.readInt();
                 Date startTime = new Date(dataInputStream.readLong());
-                Task taskToAdd;
-                if (interval > 0){
-                    Date endTime = new Date(dataInputStream.readLong());
-                    taskToAdd = new Task(title, startTime, endTime, interval);
-                }
-                else {
-                    taskToAdd = new Task(title, startTime);
-                }
+                Date endTime = new Date(dataInputStream.readLong());
+                Task taskToAdd = new Task(title, startTime, endTime, interval);
                 taskToAdd.setActive(isActive);
                 tasks.add(taskToAdd);
             }
@@ -145,18 +132,17 @@ public class TaskIO {
         boolean isRepeated = line.contains("from");//if contains - means repeated
         boolean isActive = !line.contains("inactive");//if isn't inactive - means active
         //Task(String title, Date time)   Task(String title, Date start, Date end, int interval)
-        Task result;
         String title = getTitleFromText(line);
+        Date startTime = getDateFromText(line, true);
+        Date endTime = getDateFromText(line, false);
+        int interval;
         if (isRepeated){
-            Date startTime = getDateFromText(line, true);
-            Date endTime = getDateFromText(line, false);
-            int interval = getIntervalFromText(line);
-            result = new Task(title, startTime, endTime, interval);
+            interval = getIntervalFromText(line);
         }
         else {
-            Date startTime = getDateFromText(line, true);
-            result = new Task(title, startTime);
+            interval = 0;
         }
+        Task result = new Task(title, startTime, endTime, interval);
         result.setActive(isActive);
         return result;
     }

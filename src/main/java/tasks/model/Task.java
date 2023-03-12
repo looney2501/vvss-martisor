@@ -9,9 +9,8 @@ import java.util.Date;
 
 public class Task implements Serializable, Cloneable {
     private String title;
-    private Date time;
-    private Date start;
-    private Date end;
+    private Date startTime;
+    private Date endTime;
     private int interval;
     private boolean active;
 
@@ -21,30 +20,20 @@ public class Task implements Serializable, Cloneable {
     public static SimpleDateFormat getDateFormat(){
         return sdf;
     }
-    public Task(String title, Date time){
-        if (time.getTime() < 0) {
+
+    public Task(String title, Date startTime, Date endTime, int interval){
+        if (startTime.getTime() < 0 || endTime.getTime() < 0) {
             log.error("time below bound");
             throw new IllegalArgumentException("Time cannot be negative");
         }
-        this.title = title;
-        this.time = time;
-        this.start = time;
-        this.end = time;
-    }
-    public Task(String title, Date start, Date end, int interval){
-        if (start.getTime() < 0 || end.getTime() < 0) {
-            log.error("time below bound");
-            throw new IllegalArgumentException("Time cannot be negative");
-        }
-        if (interval < 1) {
+        if (isRepeated() && interval < 1) {
             log.error("interval < than 1");
             throw new IllegalArgumentException("interval should me > 1");
         }
         this.title = title;
-        this.start = start;
-        this.end = end;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.interval = interval;
-        this.time = start;
     }
 
     public String getTitle() {
@@ -62,49 +51,42 @@ public class Task implements Serializable, Cloneable {
         this.active = active;
     }
 
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
-        this.start = time;
-        this.end = time;
-        this.interval = 0;
-    }
-
     public Date getStartTime() {
-        return start;
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime){
+        this.startTime = startTime;
+
     }
 
     public Date getEndTime() {
-        return end;
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime){
+        this.endTime = endTime;
+
     }
     public int getRepeatInterval(){
         return interval > 0 ? interval : 0;
     }
 
-    public void setTime(Date start, Date end, int interval){
-        this.time = start;
-        this.start = start;
-        this.end = end;
-        this.interval = interval;
-
-    }
     public boolean isRepeated(){
         return !(this.interval == 0);
 
     }
+
     public Date nextTimeAfter(Date current){
-        if (current.after(end) || current.equals(end))return null;
+        if (current.after(endTime) || current.equals(endTime))return null;
         if (isRepeated() && isActive()){
-            Date timeBefore  = start;
-            Date timeAfter = start;
-            if (current.before(start)){
-                return start;
+            Date timeBefore  = startTime;
+            Date timeAfter = startTime;
+            if (current.before(startTime)){
+                return startTime;
             }
-            if ((current.after(start) || current.equals(start)) && (current.before(end) || current.equals(end))){
-                for (long i = start.getTime(); i <= end.getTime(); i += interval*1000){
+            if ((current.after(startTime) || current.equals(startTime)) && (current.before(endTime) || current.equals(endTime))){
+                for (long i = startTime.getTime(); i <= endTime.getTime(); i += interval*1000){
                     if (current.equals(timeAfter)) return new Date(timeAfter.getTime()+interval*1000);
                     if (current.after(timeBefore) && current.before(timeAfter)) return timeBefore;//return timeAfter
                     timeBefore = timeAfter;
@@ -112,18 +94,18 @@ public class Task implements Serializable, Cloneable {
                 }
             }
         }
-        if (!isRepeated() && current.before(time) && isActive()){
-            return time;
+        if (!isRepeated() && current.before(startTime) && isActive()){
+            return startTime;
         }
         return null;
     }
     //duplicate methods for TableView which sets column
     // value by single method and doesn't allow passing parameters
     public String getFormattedDateStart(){
-        return sdf.format(start);
+        return sdf.format(startTime);
     }
     public String getFormattedDateEnd(){
-        return sdf.format(end);
+        return sdf.format(endTime);
     }
     public String getFormattedRepeated(){
         if (isRepeated()){
@@ -141,9 +123,8 @@ public class Task implements Serializable, Cloneable {
 
         Task task = (Task) o;
 
-        if (!time.equals(task.time)) return false;
-        if (!start.equals(task.start)) return false;
-        if (!end.equals(task.end)) return false;
+        if (!startTime.equals(task.startTime)) return false;
+        if (!endTime.equals(task.endTime)) return false;
         if (interval != task.interval) return false;
         if (active != task.active) return false;
         return title.equals(task.title);
@@ -152,9 +133,8 @@ public class Task implements Serializable, Cloneable {
     @Override
     public int hashCode() {
         int result = title.hashCode();
-        result = 31 * result + time.hashCode();
-        result = 31 * result + start.hashCode();
-        result = 31 * result + end.hashCode();
+        result = 31 * result + startTime.hashCode();
+        result = 31 * result + endTime.hashCode();
         result = 31 * result + interval;
         result = 31 * result + (active ? 1 : 0);
         return result;
@@ -164,9 +144,8 @@ public class Task implements Serializable, Cloneable {
     public String toString() {
         return "Task{" +
                 "title='" + title + '\'' +
-                ", time=" + time +
-                ", start=" + start +
-                ", end=" + end +
+                ", start=" + startTime +
+                ", end=" + endTime +
                 ", interval=" + interval +
                 ", active=" + active +
                 '}';
@@ -174,10 +153,8 @@ public class Task implements Serializable, Cloneable {
     @Override
     protected Task clone() throws CloneNotSupportedException {
         Task task  = (Task)super.clone();
-        task.time = (Date)this.time.clone();
-        task.start = (Date)this.start.clone();
-        task.end = (Date)this.end.clone();
+        task.startTime = (Date)this.startTime.clone();
+        task.endTime = (Date)this.endTime.clone();
         return task;
     }
 }
-
