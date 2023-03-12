@@ -15,25 +15,22 @@ import java.util.Date;
 public class TaskIO {
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
     private static final String[] TIME_ENTITY = {" day"," hour", " minute"," second"};
-    private static final int secondsInDay = 86400;
+    private static final int SECONDS_IN_DAY = 86400;
     private static final int secondsInHour = 3600;
     private static final int secondsInMin = 60;
+    private static final String IO_EXCEPTION_MESSAGE = "IO exception reading or writing file";
 
     private static final Logger log = Logger.getLogger(TaskIO.class.getName());
     public static void write(TaskList tasks, OutputStream out) throws IOException {
-        DataOutputStream dataOutputStream = new DataOutputStream(out);
-        try {
+        try (DataOutputStream dataOutputStream = new DataOutputStream(out)) {
             dataOutputStream.writeInt(tasks.size());
-            for (Task t : tasks){
+            for (Task t : tasks) {
                 dataOutputStream.writeUTF(t.getTitle());
                 dataOutputStream.writeBoolean(t.isActive());
                 dataOutputStream.writeInt(t.getRepeatInterval());
                 dataOutputStream.writeLong(t.getStartTime().getTime());
                 dataOutputStream.writeLong(t.getEndTime().getTime());
             }
-        }
-        finally {
-            dataOutputStream.close();
         }
     }
     public static void read(TaskList tasks, InputStream in)throws IOException {
@@ -62,7 +59,7 @@ public class TaskIO {
             write(tasks,fos);
         }
         catch (IOException e){
-            log.error("IO exception reading or writing file");
+            log.error(IO_EXCEPTION_MESSAGE);
         }
         finally {
             fos.close();
@@ -76,7 +73,7 @@ public class TaskIO {
             read(tasks, fis);
         }
         catch (IOException e){
-            log.error("IO exception reading or writing file");
+            log.error(IO_EXCEPTION_MESSAGE);
         }
         finally {
             fis.close();
@@ -111,7 +108,7 @@ public class TaskIO {
             write(tasks, fileWriter);
         }
         catch (IOException e ){
-            log.error("IO exception reading or writing file");
+            log.error(IO_EXCEPTION_MESSAGE);
         }
         finally {
             fileWriter.close();
@@ -176,7 +173,7 @@ public class TaskIO {
         int result = 0;
         for (int p = 0; p < timeEntities.length; p++){
             if (timeEntities[p] != 0 && p == 0){
-                result+=secondsInDay*timeEntities[p];
+                result+= SECONDS_IN_DAY *timeEntities[p];
             }
             if (timeEntities[p] != 0 && p == 1){
                 result+=secondsInHour*timeEntities[p];
@@ -252,10 +249,10 @@ public class TaskIO {
         if (interval <= 0) throw new IllegalArgumentException("Interval <= 0");
         StringBuilder sb = new StringBuilder();
 
-        int days = interval/secondsInDay;
-        int hours = (interval - secondsInDay*days) / secondsInHour;
-        int minutes = (interval - (secondsInDay*days + secondsInHour*hours)) / secondsInMin;
-        int seconds = (interval - (secondsInDay*days + secondsInHour*hours + secondsInMin*minutes));
+        int days = interval/ SECONDS_IN_DAY;
+        int hours = (interval - SECONDS_IN_DAY *days) / secondsInHour;
+        int minutes = (interval - (SECONDS_IN_DAY *days + secondsInHour*hours)) / secondsInMin;
+        int seconds = (interval - (SECONDS_IN_DAY *days + secondsInHour*hours + secondsInMin*minutes));
 
         int[] time = new int[]{days, hours, minutes, seconds};
         int i = 0, j = time.length-1;
@@ -282,7 +279,7 @@ public class TaskIO {
             TaskIO.writeBinary(taskList, Main.savedTasksFile);
         }
         catch (IOException e){
-            log.error("IO exception reading or writing file");
+            log.error(IO_EXCEPTION_MESSAGE);
         }
     }
 }
