@@ -26,9 +26,18 @@ public class Task implements Serializable, Cloneable {
             log.error("time below bound");
             throw new IllegalArgumentException("Time cannot be negative");
         }
-        if (isRepeated() && interval < 1) {
+
+        if (isRepeated() && interval < 1 ) {
             log.error("interval < than 1");
             throw new IllegalArgumentException("interval should me > 1");
+        }
+        if(endTime.getTime() < startTime.getTime()){
+            log.error("endTime before startTime");
+            throw new IllegalArgumentException("endTime before startTime");
+        }
+        if (interval < 0 ) {
+            log.error("interval not admitted");
+            throw new IllegalArgumentException("interval not admitted");
         }
         this.title = title;
         this.startTime = startTime;
