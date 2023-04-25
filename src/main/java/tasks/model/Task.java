@@ -10,6 +10,7 @@ import java.util.Date;
 public class Task implements Serializable, Cloneable {
     private static final Logger log = Logger.getLogger(Task.class.getName());
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    private static final SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private String title;
     private Date startTime;
     private Date endTime;
@@ -42,6 +43,12 @@ public class Task implements Serializable, Cloneable {
 
     public static SimpleDateFormat getDateFormat() {
         return sdf;
+    }
+    public static SimpleDateFormat getDateFormat1() {
+        return sdf1;
+    }
+
+    public Task() {
     }
 
     public String getTitle() {
@@ -85,6 +92,10 @@ public class Task implements Serializable, Cloneable {
     public boolean isRepeated() {
         return this.interval != 0;
 
+    }
+
+    public void setInterval(int interval) {
+        this.interval = interval;
     }
 
     public Date nextTimeAfter(Date current) {
