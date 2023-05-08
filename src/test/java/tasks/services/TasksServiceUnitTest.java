@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import tasks.model.ArrayTaskList;
 import tasks.model.Task;
 
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;

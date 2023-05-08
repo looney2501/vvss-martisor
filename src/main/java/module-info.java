@@ -6,6 +6,7 @@ module tasks {
 
 
     opens tasks.model;
+    opens tasks.services;
     exports tasks.model;
     opens tasks.view to javafx.fxml;
     exports tasks.view;
