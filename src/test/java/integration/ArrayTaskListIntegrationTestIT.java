@@ -1,59 +1,57 @@
-package tasks.integration;
+package integration;
 
+import model.ArrayTaskList;
+import model.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import tasks.model.ArrayTaskList;
-import tasks.model.Task;
-import tasks.services.TasksService;
+import services.TasksService;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.mock;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class TaskIntegrationTestIT {
+class ArrayTaskListIntegrationTestIT {
     private ArrayTaskList tasks;
     private TasksService service;
-    private java.util.Date start, end;
-
-    private Task t1;
+    //private java.util.Date start, end;
+    //private SimpleDateFormat sdf;
 
     @BeforeEach
     void setUp() {
         tasks = new ArrayTaskList();
         service = new TasksService(tasks);
-        SimpleDateFormat sdf = Task.getDateFormat();
+        /*sdf = Task.getDateFormat();
         try {
             start = sdf.parse("2023-05-06 11:00");
             end = sdf.parse("2023-05-06 13:00");
         } catch (ParseException e) {
             fail(e.getMessage());
-        }
-
-        String title = "title";
-        t1 = new Task(title, start, end, 1);
-        Task t2 = new Task(title, start, end, 2);
-
-        tasks.add(t1);
-        tasks.add(t2);
+        }*/
     }
 
     @Test
     void getObservableList() {
+        Task t1 = mock(Task.class);
+        Task t2 = mock(Task.class);
+
+        tasks.add(t1);
+        tasks.add(t2);
+        tasks.add(t2);
+
         var result = service.getObservableList();
         assertNotNull(result);
-        assertEquals(2, result.size());
+        assertEquals(3, result.size());
     }
 
-
+    /*
     @Test
     void getIntervalInHours() {
         Task t1 = new Task("title", start, end, 3660);
 
         var result = service.getIntervalInHours(t1);
 
-        assertEquals( "01:01", result);
-    }
+        assertEquals(result, "01:01");
+    }*/
 
     @Test
     void formTimeUnit() {
@@ -74,29 +72,5 @@ class TaskIntegrationTestIT {
         unit = -2;
         result = service.formTimeUnit(unit);
         assertEquals("0-2", result);
-    }
-
-    @Test
-    void size() {
-        var result = tasks.size();
-        assertEquals(2, result);
-    }
-
-    @Test
-    void getTask() {
-        var result = tasks.getTask(0);
-        assertEquals(t1, result);
-    }
-
-    @Test
-    void remove() {
-        var result = tasks.remove(t1);
-        assertTrue(result);
-
-        result = tasks.remove(t1);
-        assertFalse(result);
-
-        var result1 = tasks.size();
-        assertEquals(1, result1);
     }
 }

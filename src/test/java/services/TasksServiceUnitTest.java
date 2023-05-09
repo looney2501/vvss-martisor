@@ -1,17 +1,18 @@
-package tasks.services;
+package services;
 
 import javafx.collections.FXCollections;
+import model.ArrayTaskList;
+import model.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import tasks.model.ArrayTaskList;
-import tasks.model.Task;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class TasksServiceUnitTest {
     private ArrayTaskList tasks;

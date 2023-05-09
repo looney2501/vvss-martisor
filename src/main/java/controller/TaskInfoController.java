@@ -1,8 +1,8 @@
-package tasks.controller;
+package controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import tasks.model.Task;
+import model.Task;
 
 import org.apache.log4j.Logger;
 

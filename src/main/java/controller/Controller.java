@@ -1,4 +1,4 @@
-package tasks.controller;
+package controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -13,11 +13,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
-import tasks.model.Task;
-import tasks.services.DateService;
-import tasks.services.TaskIO;
-import tasks.services.TasksService;
-import tasks.view.Main;
+import model.Task;
+import services.DateService;
+import services.TaskIO;
+import services.TasksService;
+import view.Main;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -71,7 +71,7 @@ public class Controller {
 
     @FXML
     public void initialize(){
-        log.info("Main controller initializing");
+        log.info("view.Main controller initializing");
         columnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         columnTime.setCellValueFactory(new PropertyValueFactory<>("formattedDateStart"));
         columnRepeated.setCellValueFactory(new PropertyValueFactory<>("formattedRepeated"));

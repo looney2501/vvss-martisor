@@ -1,4 +1,4 @@
-package tasks.view;
+package view;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -7,11 +7,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
-import tasks.controller.Controller;
-import tasks.controller.Notificator;
-import tasks.model.ArrayTaskList;
-import tasks.services.TaskIO;
-import tasks.services.TasksService;
+import controller.Controller;
+import controller.Notificator;
+import model.ArrayTaskList;
+import services.TaskIO;
+import services.TasksService;
 
 import java.io.File;
 import java.io.IOException;

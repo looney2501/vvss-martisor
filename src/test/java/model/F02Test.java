@@ -1,11 +1,11 @@
-package tasks.model;
+package model;
 
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 import java.text.ParseException;
-import java.util.Date;
 
 @Tag("NextTimeAfter")
 public class F02Test {
@@ -18,7 +18,7 @@ public class F02Test {
         String startTime2 = "2023-04-01 19:00";
         String endTime2 = "2023-04-02 19:00";
         int interval2 = 100;
-        Task task2 = new Task(title2,Task.getDateFormat().parse(startTime2),Task.getDateFormat().parse(endTime2),interval2);
+        Task task2 = new Task(title2, Task.getDateFormat().parse(startTime2), Task.getDateFormat().parse(endTime2), interval2);
         task2.setActive(true);
 
         Assertions.assertEquals(null,
@@ -29,7 +29,7 @@ public class F02Test {
         String startTime1 = "2023-04-01 19:00";
         String endTime1 = "2023-04-02 22:00";
         int interval1 = 100;
-        Task task1 = new Task(title1,Task.getDateFormat().parse(startTime1),Task.getDateFormat().parse(endTime1),interval1);
+        Task task1 = new Task(title1, Task.getDateFormat().parse(startTime1), Task.getDateFormat().parse(endTime1), interval1);
         task1.setActive(true);
 
         Assertions.assertEquals(null,
@@ -40,7 +40,7 @@ public class F02Test {
         String startTime = "2023-04-01 19:00";
         String endTime = "2023-04-10 19:00";
         int interval = 100;
-        Task task = new Task(title,Task.getDateFormat().parse(startTime),Task.getDateFormat().parse(endTime),interval);
+        Task task = new Task(title, Task.getDateFormat().parse(startTime), Task.getDateFormat().parse(endTime), interval);
         task.setActive(false);
 
         Assertions.assertEquals(null,
@@ -56,7 +56,7 @@ public class F02Test {
         String startTime2 = "2023-04-01 19:00";
         String endTime2 = "2023-04-10 22:00";
         int interval2 = 0;
-        Task task2 = new Task(title2,Task.getDateFormat().parse(startTime2),Task.getDateFormat().parse(endTime2),interval2);
+        Task task2 = new Task(title2, Task.getDateFormat().parse(startTime2), Task.getDateFormat().parse(endTime2), interval2);
         task2.setActive(true);
 
         Assertions.assertEquals(Task.getDateFormat().parse(startTime2),
@@ -67,7 +67,7 @@ public class F02Test {
         String startTime3 = "2023-04-01 19:00";
         String endTime3 = "2023-04-10 22:00";
         int interval3 = 100;
-        Task task3 = new Task(title3,Task.getDateFormat().parse(startTime3),Task.getDateFormat().parse(endTime3),interval3);
+        Task task3 = new Task(title3, Task.getDateFormat().parse(startTime3), Task.getDateFormat().parse(endTime3), interval3);
         task3.setActive(true);
 
         Assertions.assertEquals(Task.getDateFormat().parse(startTime3),
@@ -78,7 +78,7 @@ public class F02Test {
         String startTime1 = "2023-04-01 19:00";
         String endTime1 = "2023-04-10 22:00";
         int interval1 = 3600;
-        Task task1 = new Task(title1,Task.getDateFormat().parse(startTime1),Task.getDateFormat().parse(endTime1),interval1);
+        Task task1 = new Task(title1, Task.getDateFormat().parse(startTime1), Task.getDateFormat().parse(endTime1), interval1);
         task1.setActive(true);
 
         Assertions.assertEquals(Task.getDateFormat().parse(startTime1),
@@ -94,7 +94,7 @@ public class F02Test {
         String startTime2 = "2023-04-01 19:00";
         String endTime2 = "2023-04-10 22:00";
         int interval2 = 100;
-        Task task2 = new Task(title2,Task.getDateFormat().parse(startTime2),Task.getDateFormat().parse(endTime2),interval2);
+        Task task2 = new Task(title2, Task.getDateFormat().parse(startTime2), Task.getDateFormat().parse(endTime2), interval2);
         task2.setActive(true);
 
         Assertions.assertEquals(Task.getDateFormat1().parse("2023-04-01 21:01:40"),
@@ -106,7 +106,7 @@ public class F02Test {
         String startTime = "2023-04-01 19:00";
         String endTime = "2023-04-01 22:00";
         int interval = 3600;
-        Task task = new Task(title,Task.getDateFormat().parse(startTime),Task.getDateFormat().parse(endTime),interval);
+        Task task = new Task(title, Task.getDateFormat().parse(startTime), Task.getDateFormat().parse(endTime), interval);
         task.setActive(true);
 
         Assertions.assertEquals(Task.getDateFormat().parse("2023-04-01 22:00"),
@@ -117,7 +117,7 @@ public class F02Test {
         String startTime1 = "2023-04-01 19:00";
         String endTime1 = "2023-04-01 22:00";
         int interval1 = 3600;
-        Task task1 = new Task(title1,Task.getDateFormat().parse(startTime1),Task.getDateFormat().parse(endTime1),interval1);
+        Task task1 = new Task(title1, Task.getDateFormat().parse(startTime1), Task.getDateFormat().parse(endTime1), interval1);
         task1.setActive(true);
 
         Assertions.assertEquals(Task.getDateFormat().parse("2023-04-01 21:00"),

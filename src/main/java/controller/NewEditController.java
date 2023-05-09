@@ -1,4 +1,4 @@
-package tasks.controller;
+package controller;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,14 +13,13 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
-import tasks.model.Task;
-import tasks.services.DateService;
-import tasks.services.TaskIO;
-import tasks.services.TasksService;
+import model.Task;
+import services.DateService;
+import services.TaskIO;
+import services.TasksService;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.temporal.TemporalAmount;
 import java.util.Date;
 
 
