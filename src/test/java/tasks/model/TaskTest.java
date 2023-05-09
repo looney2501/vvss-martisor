@@ -48,7 +48,7 @@ class TaskTest {
 
     @Tag("CreateTask")
     @DisplayName("Test Interval Error")
-    @RepeatedTest(value = 2, name = "{displayName} {currentRepetition}/{totalRepetitions}")
+    @Test
     void testCreateTaskIntervalError() throws ParseException {
         String title = "activitate noua";
         String startTime = "2023-06-10 13:00";
