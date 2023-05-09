@@ -1,47 +1,73 @@
 package tasks.model;
 
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 import java.text.ParseException;
 import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("TaskTests")
 class TaskTest {
 
     @Tag("CreateTask")
     @DisplayName("Test Happy Flow")
-    @ParameterizedTest
-    @CsvSource({"activitate noua,2023-06-10 13:00,2023-06-11 13:00,0",
-            "activitate noua,2023-09-25 19:00,2023-09-25 19:00,0",
-            "activitate noua,2023-09-25 19:00,2023-09-25 23:00,1"})
-    void testCreateTaskHappyFlow(String title,String startTime, String endTime, int interval) throws ParseException {
-        Task task = new Task(title,Task.getDateFormat().parse(startTime),Task.getDateFormat().parse(endTime),interval);
+    @Test
+    void testCreateTaskHappyFlow() throws ParseException {
+        Task task = new Task("activitate noua", Task.getDateFormat().parse("2023-06-10 13:00"), Task.getDateFormat().parse("2023-06-11 13:00"), 0);
 
         //convert String to Date
-        Date startTimetoDate = Task.getDateFormat().parse(startTime);
-        Date endTimetoDate = Task.getDateFormat().parse(endTime);
+        Date startTimetoDate = Task.getDateFormat().parse("2023-06-10 13:00");
+        Date endTimetoDate = Task.getDateFormat().parse("2023-06-11 13:00");
 
-        Assertions.assertEquals(title,task.getTitle());
-        Assertions.assertEquals(startTimetoDate,task.getStartTime());
-        Assertions.assertEquals(endTimetoDate,task.getEndTime());
-        Assertions.assertEquals(interval,task.getRepeatInterval());
+        Assertions.assertEquals("activitate noua", task.getTitle());
+        Assertions.assertEquals(startTimetoDate, task.getStartTime());
+        Assertions.assertEquals(endTimetoDate, task.getEndTime());
+        Assertions.assertEquals(0, task.getRepeatInterval());
+
+        Task task1 = new Task("activitate noua", Task.getDateFormat().parse("2023-09-25 19:00"), Task.getDateFormat().parse("2023-09-25 19:00"), 0);
+
+        //convert String to Date
+        Date startTimetoDate1 = Task.getDateFormat().parse("2023-09-25 19:00");
+        Date endTimetoDate1 = Task.getDateFormat().parse("2023-09-25 19:00");
+
+        Assertions.assertEquals("activitate noua", task1.getTitle());
+        Assertions.assertEquals(startTimetoDate1, task1.getStartTime());
+        Assertions.assertEquals(endTimetoDate1, task1.getEndTime());
+        Assertions.assertEquals(0, task1.getRepeatInterval());
+
+        Task task2 = new Task("activitate noua", Task.getDateFormat().parse("2023-09-25 19:00"), Task.getDateFormat().parse("2023-09-25 23:00"), 1);
+
+        //convert String to Date
+        Date startTimetoDate2 = Task.getDateFormat().parse("2023-09-25 19:00");
+        Date endTimetoDate2 = Task.getDateFormat().parse("2023-09-25 23:00");
+
+        Assertions.assertEquals("activitate noua", task2.getTitle());
+        Assertions.assertEquals(startTimetoDate2, task2.getStartTime());
+        Assertions.assertEquals(endTimetoDate2, task2.getEndTime());
+        Assertions.assertEquals(1, task2.getRepeatInterval());
     }
 
     @Tag("CreateTask")
     @DisplayName("Test End Start time error")
-    @ParameterizedTest
-    @CsvSource({"activitate noua,2023-06-11 13:00,2023-06-10 13:00,0",
-            "activitate noua,2023-06-13 13:00,2023-06-11 13:00,-10",
-            "activitate noua,2023-09-25 19:00,2023-09-25 18:59,2"})
-    void testCreateTaskEndStartTimeError(String title,String startTime, String endTime, int interval) throws ParseException {
-        try{
-            Task task = new Task(title,Task.getDateFormat().parse(startTime),Task.getDateFormat().parse(endTime),interval);
-        }catch(IllegalArgumentException e) {
+    @Test
+    void testCreateTaskEndStartTimeError() throws ParseException {
+        try {
+            Task task = new Task("activitate noua", Task.getDateFormat().parse("2023-06-11 13:00"), Task.getDateFormat().parse("2023-06-10 13:00"), 0);
+        } catch (IllegalArgumentException e) {
+            Assertions.assertEquals(e.getMessage(), "endTime before startTime");
+        }
+
+        try {
+            Task task = new Task("activitate noua", Task.getDateFormat().parse("2023-06-13 13:00"), Task.getDateFormat().parse("2023-06-11 13:00"), -10);
+        } catch (IllegalArgumentException e) {
+            Assertions.assertEquals(e.getMessage(), "endTime before startTime");
+        }
+
+        try {
+            Task task = new Task("activitate noua", Task.getDateFormat().parse("2023-09-25 19:00"), Task.getDateFormat().parse("2023-09-25 18:59"), 2);
+        } catch (IllegalArgumentException e) {
             Assertions.assertEquals(e.getMessage(), "endTime before startTime");
         }
     }
@@ -54,9 +80,9 @@ class TaskTest {
         String startTime = "2023-06-10 13:00";
         String endTime = "2023-06-10 14:00";
         int interval = -5;
-        try{
-            Task task = new Task(title,Task.getDateFormat().parse(startTime),Task.getDateFormat().parse(endTime),interval);
-        }catch(IllegalArgumentException e) {
+        try {
+            Task task = new Task(title, Task.getDateFormat().parse(startTime), Task.getDateFormat().parse(endTime), interval);
+        } catch (IllegalArgumentException e) {
             Assertions.assertEquals(e.getMessage(), "interval not admitted");
         }
 
@@ -64,9 +90,9 @@ class TaskTest {
         String startTime1 = "2023-09-25 19:00";
         String endTime1 = "2023-09-25 23:00";
         int interval1 = -1;
-        try{
-            Task task = new Task(title1,Task.getDateFormat().parse(startTime1),Task.getDateFormat().parse(endTime1),interval1);
-        }catch(IllegalArgumentException e) {
+        try {
+            Task task = new Task(title1, Task.getDateFormat().parse(startTime1), Task.getDateFormat().parse(endTime1), interval1);
+        } catch (IllegalArgumentException e) {
             Assertions.assertEquals(e.getMessage(), "interval not admitted");
         }
     }
