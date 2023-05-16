@@ -6,7 +6,11 @@
 
     <groupId>vvss</groupId>
     <artifactId>vvss-martisor</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>lab-05</module>
+    </modules>
 
     <name>vvss-martisor</name>
 
