@@ -9,29 +9,29 @@ import vvss.utils.WebConstants;
 
 @DefaultUrl(WebConstants.loginPageUrl)
 public class LoginPage extends PageObject {
-    @FindBy(name = "email")
+    @FindBy(name = "username")
     private WebElementFacade emailInput;
     @FindBy(name = "password")
     private WebElementFacade passwordInput;
-    @FindBy(css = "button[type='submit']")
+    @FindBy(css = "input[type='submit']")
     private WebElementFacade loginButton;
 
-    @FindBy(className = "author__meta")
+    @FindBy(id = "accountTable")
     private WebElementFacade welcomeText;
-    @FindBy(className = "failed")
+    @FindBy(className = "error")
     private WebElementFacade loginFailedText;
 
     public void login(String email, String password) {
         emailInput.sendKeys(email);
         passwordInput.sendKeys(password);
-        loginButton.waitUntilClickable().click();
+        loginButton.click();
     }
 
     public Boolean welcomeIsVisible() {
         return welcomeText.waitUntilVisible().isVisible();
     }
 
-        public Boolean loginFailedTextIsVisible() {
+    public Boolean loginFailedTextIsVisible() {
         return loginFailedText.waitUntilVisible().isVisible();
     }
 }

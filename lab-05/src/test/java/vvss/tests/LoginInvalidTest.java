@@ -16,7 +16,7 @@ public class LoginInvalidTest {
     @Managed(uniqueSession = true, driver = "firefox")
     public WebDriver webDriver;
 
-    private String email;
+    private String username;
     private String password;
 
     @Steps
@@ -24,15 +24,15 @@ public class LoginInvalidTest {
 
     @Test
     public void loginTest() {
-        loginSteps.welcomeIsNotVisibleAfterLogin(email, password);
+        loginSteps.welcomeIsNotVisibleAfterLogin(username, password);
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String email) {
+        this.username = email;
     }
 
     public String getPassword() {
