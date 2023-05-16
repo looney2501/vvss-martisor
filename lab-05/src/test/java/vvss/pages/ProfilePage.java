@@ -23,6 +23,9 @@ public class ProfilePage extends PageObject {
     private WebElementFacade cookie;
     @FindBy(id = "preloader")
     private WebElementFacade preloader;
+
+    @FindBy(css = "ul.list-items li:first-child")
+    private WebElementFacade openNewAccountButton;
     @FindBy(css = "ul.list-items li:last-child")
     private WebElementFacade logoutButton;
 
@@ -39,6 +42,11 @@ public class ProfilePage extends PageObject {
     public void logout() {
         preloader.waitUntilNotVisible();
         logoutButton.waitUntilClickable().click();
+    }
+
+    public void openNewAccountClick() {
+        //preloader.waitUntilNotVisible();
+        openNewAccountButton.waitUntilClickable().click();
     }
 
     public Boolean successIsVisible() {
