@@ -8,8 +8,6 @@ import static org.junit.Assert.assertTrue;
 
 public class OpenAccountAndTransferFundsSteps {
     LoginPage loginPage;
-    VisaPage visaPage;
-    ProfilePage profilePage;
     OpenNewAccountPage openNewAccountPage;
     TransferFundsPage transferFundsPage;
 
@@ -17,21 +15,6 @@ public class OpenAccountAndTransferFundsSteps {
     public void login(String username, String password) {
         loginPage.open();
         loginPage.login(username, password);
-    }
-
-    @Step
-    public void searchVisa() {
-        loginPage.open();
-        loginPage.login(WebConstants.email, WebConstants.password);
-        assertTrue(loginPage.welcomeIsVisible());
-
-        visaPage.open();
-        visaPage.searchVisa();
-        visaPage.submitVisa();
-        assertTrue(visaPage.isVisaSubmittedVisible());
-
-        profilePage.open();
-        profilePage.logout();
     }
 
     @Step
